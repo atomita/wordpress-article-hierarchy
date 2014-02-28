@@ -1,0 +1,17 @@
+{
+	"name": "atomita/wp-article-hierarchy",
+	"keywords": ["wordpress", "theme"],
+	"license": "GPL",
+	"authors": [
+		{
+			"name": "atomita"
+		}
+	],
+	"version": "0.0.1",
+	"require": {
+		"atomita/php-facade": "*"
+	},
+	"autoload": {
+		"classmap": ["src/Atomita/Wordpress/"]
+	}
+}
