@@ -1,7 +1,7 @@
 {
 	"name": "atomita/wp-article-hierarchy",
 	"keywords": ["wordpress", "theme"],
-	"license": "GPL",
+	"license": "LGPLv3",
 	"authors": [
 		{
 			"name": "atomita"
