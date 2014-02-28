@@ -37,7 +37,7 @@ EOD;
 			else{
 				$tree = $this->tree($id);
 			}
-			$value = $this->applyTemplate($tree);
+			$value = $this->templateApplied($tree);
 		}
 		return apply_filters("{$this->name}-after-get", $value, $id);
 	}
