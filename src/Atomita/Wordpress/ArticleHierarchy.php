@@ -27,7 +27,7 @@ EOD;
 		do_action("{$this->name}-before-get");
 
 		$around = apply_filters("{$this->name}-around-get", '', $id);
-		if (!empty($around) or is_string($around)){
+		if (!empty($around) and is_string($around)){
 			$value = $around;
 		}
 		else{
@@ -88,14 +88,11 @@ EOD;
 			$id = get_the_ID();
 		}
 	
-		if (is_singler($id)){
-			$ancestors = get_post_ancestors($id);
-			$parent    = empty($ancestors) ? $id : end($ancestors);
-			return array(
-				$parent => $this->children($parent)
-			);
-		}
-		return array();
+		$ancestors = get_post_ancestors($id);
+		$parent    = empty($ancestors) ? $id : end($ancestors);
+		return array(
+			$parent => $this->children($parent)
+		);
 	}
 
 	/**
@@ -112,21 +109,19 @@ EOD;
 
 		$childs = array();
 
-		if (is_singler($parent)){
-			if (is_null($post_type)){
-				$post_type = get_post_type($parent);
-			}
+		if (is_null($post_type)){
+			$post_type = get_post_type($parent);
+		}
 		
-			$children = get_posts(array(
-				'post_type'   => $post_type,
-				'post_parent' => $parent,
-				'orderby'	  => 'menu_order date',
-				'order'	  => 'ASC',
-			));
+		$children = get_posts(array(
+			'post_type'   => $post_type,
+			'post_parent' => $parent,
+			'orderby'	  => 'menu_order date',
+			'order'	  => 'ASC',
+		));
 
-			foreach ($children as $child){
-				$childs[$child->ID] = $this->children($child->ID, $post_type);
-			}
+		foreach ($children as $child){
+			$childs[$child->ID] = $this->children($child->ID, $post_type);
 		}
 		return $childs;
 	}
