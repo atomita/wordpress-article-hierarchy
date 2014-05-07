@@ -1,5 +1,7 @@
 <?php
 
+namespace Atomita\Wordpress;
+
 /**
  * article hierarchy
  */

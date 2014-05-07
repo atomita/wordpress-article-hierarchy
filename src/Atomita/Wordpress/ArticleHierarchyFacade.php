@@ -1,17 +1,10 @@
 <?php
 
+namespace Atomita\Wordpress;
+
 /**
  * Facade of ArticleHierarchy
  */
-class ArticleHierarchyFacade extends \Atomita\Facade
+class ArticleHierarchyFacade extends \Atomita\FacadeAEasy
 {
-	static protected function facadeInstance()
-	{
-		static $instance;
-		if (!isset($instance)){
-			$instance = new ArticleHierarchy();
-		}
-		return $instance;
-	}
-
 }
