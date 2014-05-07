@@ -1,5 +1,5 @@
 {
-	"name": "atomita/wp-article-hierarchy",
+	"name": "atomita/wordpress-article-hierarchy",
 	"keywords": ["wordpress", "theme"],
 	"license": "LGPLv3",
 	"authors": [
@@ -7,7 +7,7 @@
 			"name": "atomita"
 		}
 	],
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"require": {
 		"atomita/php-facade": "*"
 	},
