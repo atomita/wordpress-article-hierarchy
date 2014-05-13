@@ -53,16 +53,28 @@ EOD;
 		if (empty($pages)){
 			return '';
 		}
+		$def = array(
+			'id'	   => 0,
+			'url'	   => false,
+			'title'    => false,
+			'children' => null
+		);
 
 		$children = array();
-		foreach ($pages as $parent => $childs){
+		foreach ($pages as $page){
+			$page = wp_parse_args($page, $def);
+			
 			$args = apply_filters(
 				"{$this->name}-after-list-format-params",
 				array(
 					$this->list_template,
-					esc_url(get_permalink($parent)),
-					esc_html(get_the_title($parent)),
-					$this->templateApplied($childs, $level + 1)
+					esc_url($page['url'] ? $page['url'] : get_permalink($page['id'])),
+					esc_html($page['title'] ? $page['title'] : get_the_title($page['id'])),
+					$this->templateApplied($page['children'], $level + 1)
+				),
+				array(
+					'page'	=> $page,
+					'level' => $level
 				)
 			);
 			$children[] = call_user_func_array('sprintf', $args);
@@ -74,6 +86,10 @@ EOD;
 				$level,
 				'',
 				implode(PHP_EOL, $children)
+			),
+			array(
+				'pages' => $pages,
+				'level' => $level
 			)
 		);
 		return call_user_func_array('sprintf', $wrap_args);
@@ -92,9 +108,12 @@ EOD;
 	
 		$ancestors = get_post_ancestors($id);
 		$parent    = empty($ancestors) ? $id : end($ancestors);
-		return array(
-			$parent => $this->children($parent)
-		);
+		return array(array(
+			'id'	   => $parent,
+			'url'	   => get_permalink($parent),
+			'title'    => get_the_title($parent),
+			'children' => $this->children($parent)
+		));
 	}
 
 	/**
@@ -109,23 +128,28 @@ EOD;
 			$parent = get_the_ID();
 		}
 
-		$childs = array();
-
 		if (is_null($post_type)){
 			$post_type = get_post_type($parent);
 		}
 		
-		$children = get_posts(array(
+		$childs = get_posts(array(
 			'post_type'   => $post_type,
 			'post_parent' => $parent,
 			'orderby'	  => 'menu_order date',
 			'order'	  => 'ASC',
+			'numberposts' => -1
 		));
 
-		foreach ($children as $child){
-			$childs[$child->ID] = $this->children($child->ID, $post_type);
+		$children = array();
+		foreach ($childs as $child){
+			$children[] =  array(
+				'id'	   => $child->ID,
+				'url'	   => get_permalink($child->ID),
+				'title'    => get_the_title($child->ID),
+				'children' => $this->children($child->ID, $post_type)
+			);
 		}
-		return $childs;
+		return $children;
 	}
 
 }
