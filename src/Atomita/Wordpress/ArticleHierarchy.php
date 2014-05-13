@@ -10,11 +10,11 @@ class ArticleHierarchy
 	var $name = 'article-hierarchy';
 
 	var $list_template = <<<EOD
-<li><a href="%s">%s</a>%s</li>
+<li class="level-%d %s"><a href="%s">%s</a>%s</li>
 EOD;
 
 	var $wrap_template = <<<EOD
-<ul class="level-%d %s">
+<ul class="level-%d-wrap %s">
 	%s
 </ul>
 EOD;
@@ -67,6 +67,8 @@ EOD;
 			$args = apply_filters(
 				"{$this->name}-after-list-format-params",
 				array(
+					$level,
+					'',
 					$this->list_template,
 					esc_url($page['url'] ? $page['url'] : get_permalink($page['id'])),
 					esc_html($page['title'] ? $page['title'] : get_the_title($page['id'])),
