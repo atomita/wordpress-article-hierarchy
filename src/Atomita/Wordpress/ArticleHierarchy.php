@@ -67,9 +67,9 @@ EOD;
 			$args = apply_filters(
 				"{$this->name}-after-list-format-params",
 				array(
+					$this->list_template,
 					$level,
 					'',
-					$this->list_template,
 					esc_url($page['url'] ? $page['url'] : get_permalink($page['id'])),
 					esc_html($page['title'] ? $page['title'] : get_the_title($page['id'])),
 					$this->templateApplied($page['children'], $level + 1)
