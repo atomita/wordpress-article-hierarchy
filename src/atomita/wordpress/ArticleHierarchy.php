@@ -1,6 +1,6 @@
 <?php
 
-namespace Atomita\Wordpress;
+namespace atomita\wordpress;
 
 /**
  * article hierarchy
